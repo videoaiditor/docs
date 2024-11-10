@@ -1,194 +1,402 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "openapi": "3.0.0",
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/v1/videos": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "operationId": "ApiVideoController_createVideo",
+        "summary": "Create a new video",
+        "parameters": [],
         "requestBody": {
-          "description": "Plant to add to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/CreateVideoDto"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
-          "200": {
-            "description": "plant response",
+          "201": {
+            "description": "The video has been successfully created.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/CreateVideoResponseDto"
                 }
               }
             }
           },
           "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Invalid input or missing required fields."
+          },
+          "401": {
+            "description": "Invalid or missing authentication token."
           }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
+        },
+        "tags": [
+          "Videos"
         ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
+        "security": [
           {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
+            "bearer": []
           }
         ]
       },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
+      "get": {
+        "operationId": "ApiVideoController_getUserVideos",
+        "summary": "Get user videos",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "number"
+            }
           },
-          "message": {
-            "type": "string"
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "type": "number"
+            }
           }
-        }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of user videos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideosListResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields."
+          },
+          "401": {
+            "description": "Invalid or missing authentication token."
+          }
+        },
+        "tags": [
+          "Videos"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     },
+    "/v1/videos/{id}": {
+      "patch": {
+        "operationId": "ApiVideoController_updateVideo",
+        "summary": "Update a video",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Video ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVideoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The video has been successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields."
+          },
+          "401": {
+            "description": "Invalid or missing authentication token."
+          },
+          "403": {
+            "description": "User does not have permission to update videos."
+          },
+          "404": {
+            "description": "Video not found."
+          }
+        },
+        "tags": [
+          "Videos"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ApiVideoController_getVideo",
+        "summary": "Get a video by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Video ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the video details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields."
+          },
+          "401": {
+            "description": "Invalid or missing authentication token."
+          },
+          "403": {
+            "description": "User does not have permission to get video."
+          },
+          "404": {
+            "description": "Video not found."
+          }
+        },
+        "tags": [
+          "Videos"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AICaller APIs",
+    "description": "",
+    "version": "1.0.0",
+    "contact": {
+
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "REST API server"
+    }
+  ],
+  "components": {
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "FrameSizeDto": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "width",
+          "height"
+        ]
+      },
+      "ClipDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "src": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number"
+          },
+          "startTime": {
+            "type": "number"
+          },
+          "endTime": {
+            "type": "number"
+          },
+          "track": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "src",
+          "duration",
+          "startTime",
+          "endTime",
+          "track"
+        ]
+      },
+      "CreateVideoDto": {
+        "type": "object",
+        "properties": {
+          "frameSize": {
+            "$ref": "#/components/schemas/FrameSizeDto"
+          },
+          "name": {
+            "type": "string"
+          },
+          "clips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClipDto"
+            }
+          },
+          "additional": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "frameSize",
+          "name",
+          "clips"
+        ]
+      },
+      "CreateVideoResponseDto": {
+        "type": "object",
+        "properties": {
+          "redirectUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "redirectUrl"
+        ]
+      },
+      "UpdateVideoDto": {
+        "type": "object",
+        "properties": {
+          "frameSize": {
+            "$ref": "#/components/schemas/FrameSizeDto"
+          },
+          "name": {
+            "type": "string"
+          },
+          "clips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClipDto"
+            }
+          },
+          "additional": {
+            "type": "object"
+          }
+        }
+      },
+      "VideoResponseData": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "frameSize": {
+            "$ref": "#/components/schemas/FrameSizeDto"
+          },
+          "clips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClipDto"
+            }
+          },
+          "additional": {
+            "type": "object"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "frameSize",
+          "clips",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "VideoResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/VideoResponseData"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "VideosListResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoResponseData"
+            }
+          },
+          "pagination": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
       }
     }
   }
