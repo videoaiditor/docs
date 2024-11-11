@@ -28,10 +28,24 @@
             }
           },
           "400": {
-            "description": "Invalid input or missing required fields."
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing authentication token."
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -78,10 +92,34 @@
             }
           },
           "400": {
-            "description": "Invalid input or missing required fields."
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing authentication token."
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -131,16 +169,44 @@
             }
           },
           "400": {
-            "description": "Invalid input or missing required fields."
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing authentication token."
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
           },
           "403": {
-            "description": "User does not have permission to update videos."
+            "description": "User does not have permission to update videos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Video not found."
+            "description": "Video not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -178,16 +244,44 @@
             }
           },
           "400": {
-            "description": "Invalid input or missing required fields."
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid or missing authentication token."
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
           },
           "403": {
-            "description": "User does not have permission to get video."
+            "description": "User does not have permission to get video.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Video not found."
+            "description": "Video not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -210,7 +304,7 @@
   "tags": [],
   "servers": [
     {
-      "url": "https://api.videoaider.com",
+      "url": "https://api.videoaiditor.com",
       "description": "REST API server"
     }
   ],
@@ -219,7 +313,8 @@
       "api-key": {
         "type": "apiKey",
         "in": "header",
-        "name": "videoaiditor_api_key"
+        "name": "videoaiditor_api_key",
+        "description": "Enter your API key here"
       }
     },
     "schemas": {
@@ -579,6 +674,62 @@
           "data"
         ]
       },
+      "BadRequestDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "message": {
+            "example": [
+              "Invalid input",
+              "Missing required field"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "example": "Bad Request"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
+      },
+      "UnauthorizedDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 401
+          },
+          "message": {
+            "example": [
+              "Invalid credentials",
+              "Token expired"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "example": "Unauthorized"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
+      },
       "UpdateVideoDto": {
         "type": "object",
         "properties": {
@@ -592,6 +743,61 @@
             }
           }
         }
+      },
+      "ForbiddenDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 403
+          },
+          "message": {
+            "example": [
+              "Access denied",
+              "Insufficient permissions"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "example": "Forbidden"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
+      },
+      "NotFoundDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 404
+          },
+          "message": {
+            "example": [
+              "Resource not found"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "example": "Not Found"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
       },
       "VideosListResponseDto": {
         "type": "object",
