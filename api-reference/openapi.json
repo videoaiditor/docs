@@ -22,7 +22,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateVideoResponseDto"
+                  "$ref": "#/components/schemas/VideoResponseDto"
                 }
               }
             }
@@ -39,7 +39,7 @@
         ],
         "security": [
           {
-            "apiKey": []
+            "api-key": []
           }
         ]
       },
@@ -89,7 +89,7 @@
         ],
         "security": [
           {
-            "apiKey": []
+            "api-key": []
           }
         ]
       }
@@ -148,7 +148,7 @@
         ],
         "security": [
           {
-            "apiKey": []
+            "api-key": []
           }
         ]
       },
@@ -195,14 +195,14 @@
         ],
         "security": [
           {
-            "apiKey": []
+            "api-key": []
           }
         ]
       }
     }
   },
   "info": {
-    "title": "AICaller APIs",
+    "title": "Video AIditor APIs",
     "description": "",
     "version": "1.0.0",
     "contact": {}
@@ -210,27 +210,29 @@
   "tags": [],
   "servers": [
     {
-      "url": "http://localhost:3001",
+      "url": "https://api.videoaider.com",
       "description": "REST API server"
     }
   ],
   "components": {
     "securitySchemes": {
-      "apiKey": {
+      "api-key": {
         "type": "apiKey",
         "in": "header",
         "name": "videoaiditor_api_key"
       }
     },
     "schemas": {
-      "FrameSizeDto": {
+      "CanvasDto": {
         "type": "object",
         "properties": {
           "width": {
-            "type": "number"
+            "type": "number",
+            "default": 1920
           },
           "height": {
-            "type": "number"
+            "type": "number",
+            "default": 1080
           }
         },
         "required": [
@@ -238,48 +240,245 @@
           "height"
         ]
       },
-      "ClipDto": {
+      "MetadataDto": {
         "type": "object",
         "properties": {
-          "type": {
+          "name": {
             "type": "string"
           },
-          "src": {
-            "type": "string"
-          },
-          "thumbnail": {
-            "type": "string"
+          "backgroundColor": {
+            "type": "string",
+            "default": "#000000"
           },
           "duration": {
             "type": "number"
           },
-          "startTime": {
-            "type": "number"
+          "fps": {
+            "type": "number",
+            "default": 30
           },
-          "endTime": {
-            "type": "number"
+          "canvas": {
+            "$ref": "#/components/schemas/CanvasDto"
+          }
+        },
+        "required": [
+          "name",
+          "backgroundColor",
+          "duration",
+          "fps",
+          "canvas"
+        ]
+      },
+      "TimeFrameDto": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "default": 0
           },
-          "track": {
+          "end": {
             "type": "number"
           }
         },
         "required": [
+          "start",
+          "end"
+        ]
+      },
+      "PositionDto": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "default": 0
+          },
+          "y": {
+            "type": "number",
+            "default": 0
+          },
+          "z": {
+            "type": "number",
+            "default": 0
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "ScaleDto": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "default": 1
+          },
+          "y": {
+            "type": "number",
+            "default": 1
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "TransformDto": {
+        "type": "object",
+        "properties": {
+          "scale": {
+            "$ref": "#/components/schemas/ScaleDto"
+          },
+          "rotation": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "scale",
+          "rotation"
+        ]
+      },
+      "SizeDto": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "number",
+            "default": 100
+          },
+          "height": {
+            "type": "number",
+            "default": 100
+          }
+        },
+        "required": [
+          "width",
+          "height"
+        ]
+      },
+      "EffectsDto": {
+        "type": "object",
+        "properties": {
+          "opacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          }
+        },
+        "required": [
+          "opacity"
+        ]
+      },
+      "TextPropertiesDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "fontSize": {
+            "type": "number",
+            "default": 16
+          },
+          "fontWeight": {
+            "type": "number",
+            "default": 400
+          },
+          "fontFamily": {
+            "type": "string",
+            "default": "Arial"
+          },
+          "color": {
+            "type": "string",
+            "default": "#000000"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "default": "transparent"
+          },
+          "textAlign": {
+            "type": "string",
+            "default": "left"
+          },
+          "fontStyle": {
+            "type": "string",
+            "default": "normal"
+          },
+          "lineHeight": {
+            "type": "number",
+            "default": 1.2
+          },
+          "underline": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "content",
+          "fontSize",
+          "fontWeight",
+          "fontFamily",
+          "color",
+          "backgroundColor",
+          "textAlign",
+          "fontStyle",
+          "lineHeight",
+          "underline"
+        ]
+      },
+      "ClipDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "timeFrame": {
+            "$ref": "#/components/schemas/TimeFrameDto"
+          },
+          "position": {
+            "$ref": "#/components/schemas/PositionDto"
+          },
+          "transform": {
+            "$ref": "#/components/schemas/TransformDto"
+          },
+          "size": {
+            "$ref": "#/components/schemas/SizeDto"
+          },
+          "effects": {
+            "$ref": "#/components/schemas/EffectsDto"
+          },
+          "textProperties": {
+            "$ref": "#/components/schemas/TextPropertiesDto"
+          }
+        },
+        "required": [
+          "id",
           "type",
-          "src",
-          "duration",
-          "startTime",
-          "endTime",
-          "track"
+          "name",
+          "source",
+          "timeFrame",
+          "position",
+          "transform",
+          "size"
         ]
       },
       "CreateVideoDto": {
         "type": "object",
         "properties": {
-          "frameSize": {
-            "$ref": "#/components/schemas/FrameSizeDto"
-          },
-          "name": {
+          "version": {
             "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataDto"
           },
           "clips": {
             "type": "array",
@@ -292,41 +491,43 @@
           }
         },
         "required": [
-          "frameSize",
-          "name",
+          "version",
+          "metadata",
           "clips"
         ]
       },
-      "CreateVideoResponseDto": {
+      "ResponseMetadataDto": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "default": "#000000"
+          },
+          "duration": {
+            "type": "number"
+          },
+          "fps": {
+            "type": "number",
+            "default": 30
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/CanvasDto"
+          },
           "redirectUrl": {
             "type": "string"
           }
         },
         "required": [
+          "name",
+          "backgroundColor",
+          "duration",
+          "fps",
+          "canvas",
           "redirectUrl"
         ]
-      },
-      "UpdateVideoDto": {
-        "type": "object",
-        "properties": {
-          "frameSize": {
-            "$ref": "#/components/schemas/FrameSizeDto"
-          },
-          "name": {
-            "type": "string"
-          },
-          "clips": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ClipDto"
-            }
-          },
-          "additional": {
-            "type": "object"
-          }
-        }
       },
       "VideoResponseData": {
         "type": "object",
@@ -334,11 +535,11 @@
           "_id": {
             "type": "string"
           },
-          "name": {
+          "version": {
             "type": "string"
           },
-          "frameSize": {
-            "$ref": "#/components/schemas/FrameSizeDto"
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetadataDto"
           },
           "clips": {
             "type": "array",
@@ -360,8 +561,8 @@
         },
         "required": [
           "_id",
-          "name",
-          "frameSize",
+          "version",
+          "metadata",
           "clips",
           "createdAt",
           "updatedAt"
@@ -377,6 +578,20 @@
         "required": [
           "data"
         ]
+      },
+      "UpdateVideoDto": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataDto"
+          },
+          "clips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClipDto"
+            }
+          }
+        }
       },
       "VideosListResponseDto": {
         "type": "object",
