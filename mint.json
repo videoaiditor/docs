@@ -56,9 +56,17 @@
       ]
     },
     {
+      "group": "Guides",
+      "pages": [
+        "guides/HowToUse",
+        "guides/How to use the API"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
-        "api-reference/introduction"
+        "api-reference/introduction",
+        "api-reference/ratelimits"
       ]
     },
     {

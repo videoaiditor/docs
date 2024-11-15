@@ -1,0 +1,106 @@
+---
+title: How to use API
+description: "Follow these steps to create a video using the API and share video using VideoAiditor."
+---
+
+## Use the API to Create the Video
+
+Send your video template JSON, created via the editor, and get the link for further editing, use the following API endpoint:
+
+Add your API key to the request header as follows:
+
+- `x-api-key: YOUR_API_KEY`
+
+Send a `POST` request to `https://api.videoaiditor.com/v1/videos` with the JSON body and the appropriate headers.
+
+## Request Body Example
+
+```json
+{
+  "version": "<string>",
+  "metadata": {
+    "name": "<string>",
+    "backgroundColor": "<string>",
+    "duration": 123,
+    "fps": 123,
+    "canvas": {
+      "width": 123,
+      "height": 123
+    }
+  },
+  "clips": [
+    {
+      "id": "<string>",
+      "type": "<string>",
+      "name": "<string>",
+      "source": "<string>",
+      "timeFrame": {
+        "start": 123,
+        "end": 123
+      },
+      "position": {
+        "x": 123,
+        "y": 123,
+        "z": 123
+      },
+      "transform": {
+        "scale": {
+          "x": 123,
+          "y": 123
+        },
+        "rotation": 123
+      },
+      "size": {
+        "width": 123,
+        "height": 123
+      },
+      "effects": {
+        "opacity": 0.5
+      },
+      "textProperties": {
+        "content": "<string>",
+        "fontSize": 123,
+        "fontWeight": 123,
+        "fontFamily": "<string>",
+        "color": "<string>",
+        "backgroundColor": "<string>",
+        "textAlign": "<string>",
+        "fontStyle": "<string>",
+        "lineHeight": 123,
+        "underline": true
+      }
+    }
+  ],
+  "additional": {}
+}
+```
+
+## Handle the Response
+
+Once you send the request, the API will return a response that includes data in the following format:
+
+```json
+{
+  "data": {
+    "metadata": {
+      "redirectUrl": "https://videoaiditor.com/editor/{unique-id}",
+        ...
+    }
+    ...
+    ...
+  }
+}
+```
+
+### Important: Save the `redirectUrl`
+
+The response will contain a `redirectUrl` field in the metadata. **Save this URL** — it's a special link that will allow you to continue editing the video.
+
+- The URL is **public** but only accessible to users who have the link.
+- You can share this URL with others to allow them to edit the video. Since it's a presigned URL, no one else will be able to access it without the exact link.
+
+## Final Notes
+
+- **Security:** Be cautious when sharing the `redirectUrl` since it provides direct access to that video in video editor.
+- **Public Access:** Ensure the asset URLs you provide in the JSON are publicly accessible. If they are private or restricted, the video may not load correctly when editing.
+- **API Key:** Keep your API key secure. Do not share it in public forums or expose it in client-side code.

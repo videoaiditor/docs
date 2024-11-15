@@ -1,0 +1,24 @@
+---
+title: "Rate Limits"
+description: "API rate limits and quotas for VideoAiditor"
+---
+
+VideoAiditor enforces rate limits to ensure fair usage of our APIs. During the testing phase, the following limits apply per user:
+
+### Daily Limit
+
+- 1,000 requests per day (24-hour period)
+
+### Hourly Limit
+
+- 300 requests per hour
+
+### Per Minute Limit
+
+- 10 requests per minute
+
+If you exceed any of these limits, the API will return a `429 Too Many Requests` response. We recommend implementing exponential backoff in your application to handle rate limiting gracefully.
+
+## Why These Limits?
+
+As we are currently in the testing phase, these limits are in place to help us monitor and adjust our system. Once we officially launch, you will be able to obtain your own API key, with rate limits as per your specific use case.
