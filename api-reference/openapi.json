@@ -351,7 +351,7 @@
           },
           "duration": {
             "type": "number",
-            "description": "Total duration of the video in seconds"
+            "description": "Total duration of the video in milliseconds"
           },
           "fps": {
             "type": "number",
@@ -381,15 +381,15 @@
           "start": {
             "type": "number",
             "default": 0,
-            "description": "Start time in seconds when clip should begin playing"
+            "description": "Start time in milliseconds when the clip should begin playing"
           },
           "end": {
             "type": "number",
-            "description": "End time in seconds when clip should stop playing"
+            "description": "End time in milliseconds when the clip should stop playing"
           },
           "offset": {
             "type": "number",
-            "description": "Time offset in seconds to start playing from within the source media"
+            "description": "Time offset in milliseconds to start playing from within the source media"
           }
         },
         "required": [
@@ -649,7 +649,7 @@
           },
           "duration": {
             "type": "number",
-            "description": "Total duration of the video in seconds"
+            "description": "Total duration of the video in milliseconds"
           },
           "fps": {
             "type": "number",
