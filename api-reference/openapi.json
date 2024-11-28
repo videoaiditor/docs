@@ -54,6 +54,9 @@
         "security": [
           {
             "api-key": []
+          },
+          {
+            "bearer": []
           }
         ]
       },
@@ -128,6 +131,9 @@
         "security": [
           {
             "api-key": []
+          },
+          {
+            "bearer": []
           }
         ]
       }
@@ -215,6 +221,9 @@
         "security": [
           {
             "api-key": []
+          },
+          {
+            "bearer": []
           }
         ]
       },
@@ -290,6 +299,9 @@
         "security": [
           {
             "api-key": []
+          },
+          {
+            "bearer": []
           }
         ]
       }
@@ -537,6 +549,140 @@
           "content"
         ]
       },
+      "WordDto": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "description": "Start time in milliseconds when the word should appear"
+          },
+          "end": {
+            "type": "number",
+            "description": "End time in milliseconds when the word should disappear"
+          },
+          "word": {
+            "type": "string",
+            "description": "The word text to display"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "word"
+        ]
+      },
+      "TextStylePropertiesDto": {
+        "type": "object",
+        "properties": {
+          "fontSize": {
+            "type": "number",
+            "default": 24,
+            "description": "Font size in pixels"
+          },
+          "color": {
+            "type": "string",
+            "default": "#000000",
+            "description": "Text color in hex format"
+          },
+          "fontFamily": {
+            "type": "string",
+            "default": "Montserrat",
+            "description": "Font family name"
+          },
+          "fontWeight": {
+            "type": "number",
+            "default": 400,
+            "description": "Font weight (100-900). 400 is normal, 700 is bold"
+          },
+          "fontStyle": {
+            "type": "string",
+            "default": "normal",
+            "description": "Font style. Possible values: normal, italic"
+          },
+          "underline": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to underline the text"
+          },
+          "padding": {
+            "type": "number",
+            "default": 0,
+            "description": "Padding around the text in pixels"
+          },
+          "strokeWidth": {
+            "type": "number",
+            "default": 0,
+            "description": "Width of the text stroke/outline in pixels"
+          },
+          "strokeColor": {
+            "type": "string",
+            "default": "#000000",
+            "description": "Color of the text stroke/outline in hex format"
+          },
+          "borderWidth": {
+            "type": "number",
+            "default": 0,
+            "description": "Width of the text border in pixels"
+          },
+          "borderColor": {
+            "type": "string",
+            "default": "#FFFFFF",
+            "description": "Color of the text border in hex format"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "description": "Background color in hex format or color name"
+          }
+        }
+      },
+      "CaptionPropertiesDto": {
+        "type": "object",
+        "properties": {
+          "words": {
+            "description": "Array of words with their timing information",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WordDto"
+            }
+          },
+          "highlightTextProperties": {
+            "description": "Text style properties for highlighted words",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TextStylePropertiesDto"
+              }
+            ]
+          },
+          "nonHighlightTextProperties": {
+            "description": "Text style properties for non-highlighted words",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TextStylePropertiesDto"
+              }
+            ]
+          },
+          "textAlign": {
+            "type": "string",
+            "default": "center",
+            "description": "Text alignment. Possible values: left, center, right, justify"
+          },
+          "maxWidth": {
+            "type": "number",
+            "default": 500,
+            "description": "Maximum width of the caption text in pixels"
+          },
+          "maxWordsInFrame": {
+            "type": "number",
+            "default": 5,
+            "description": "Maximum number of words to show in a single frame"
+          }
+        },
+        "required": [
+          "words",
+          "highlightTextProperties",
+          "nonHighlightTextProperties"
+        ]
+      },
       "ClipDto": {
         "type": "object",
         "properties": {
@@ -594,6 +740,14 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/TextPropertiesDto"
+              }
+            ]
+          },
+          "captionProperties": {
+            "description": "Caption properties, used for caption clips",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CaptionPropertiesDto"
               }
             ]
           }
@@ -734,6 +888,14 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/TextPropertiesDto"
+              }
+            ]
+          },
+          "captionProperties": {
+            "description": "Caption properties, used for caption clips",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CaptionPropertiesDto"
               }
             ]
           },
