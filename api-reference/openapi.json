@@ -305,6 +305,334 @@
           }
         ]
       }
+    },
+    "/v1/renders": {
+      "post": {
+        "operationId": "RenderController_createRender",
+        "summary": "Create a render directly from a video json",
+        "parameters": [
+          {
+            "name": "autoGenerateCaptionWords",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "captionLanguageCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en"
+              ],
+              "description": "Currently supports English only."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Video data to render",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVideoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The render has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenderResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to create renders.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Renders"
+        ]
+      },
+      "get": {
+        "operationId": "RenderController_getRendersByVideoId",
+        "summary": "Get renders by video ID",
+        "parameters": [
+          {
+            "name": "videoId",
+            "required": true,
+            "in": "query",
+            "description": "Video ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of renders for the video.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RendersListResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to view renders.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Renders"
+        ]
+      }
+    },
+    "/v1/renders/{videoId}": {
+      "post": {
+        "operationId": "RenderController_createRenderPost",
+        "summary": "Create a new render for a already created video",
+        "parameters": [
+          {
+            "name": "videoId",
+            "required": false,
+            "in": "path",
+            "description": "Video ID to render",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "autoGenerateCaptionWords",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "captionLanguageCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en"
+              ],
+              "description": "Currently supports English only."
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The render has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenderResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to create renders.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Renders"
+        ]
+      }
+    },
+    "/v1/renders/{id}": {
+      "get": {
+        "operationId": "RenderController_getRenderById",
+        "summary": "Get a single render by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Render ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the render details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenderResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing authentication token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to view this render.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Render not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Renders"
+        ]
+      }
     }
   },
   "info": {
@@ -522,7 +850,7 @@
           "backgroundColor": {
             "type": "string",
             "default": "transparent",
-            "description": "Background color in hex format or color name"
+            "description": "Background color in hex format"
           },
           "textAlign": {
             "type": "string",
@@ -631,7 +959,7 @@
           },
           "backgroundColor": {
             "type": "string",
-            "description": "Background color in hex format or color name"
+            "description": "Background color in hex format"
           }
         }
       },
@@ -764,6 +1092,14 @@
       "CreateVideoDto": {
         "type": "object",
         "properties": {
+          "renderOptionsInUI": {
+            "default": [],
+            "description": "Render options to display in UI. Leave empty to restrict renderer access",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "metadata": {
             "description": "Video project metadata",
             "allOf": [
@@ -1123,6 +1459,97 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/VideoResponseData"
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "description": "Pagination information"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "RenderResponseData": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier of the render"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the render",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed"
+            ]
+          },
+          "outputUrl": {
+            "type": "string",
+            "description": "URL to the rendered video file"
+          },
+          "videoId": {
+            "type": "string",
+            "description": "Video ID"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if render failed"
+          },
+          "videoData": {
+            "description": "API video data",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoResponseData"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation timestamp"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp"
+          }
+        },
+        "required": [
+          "_id",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "RenderResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Render data",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RenderResponseData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "RendersListResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Array of render data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RenderResponseData"
             }
           },
           "pagination": {
