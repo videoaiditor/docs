@@ -397,6 +397,11 @@
         },
         "tags": [
           "Renders"
+        ],
+        "security": [
+          {
+            "api-key": []
+          }
         ]
       },
       "get": {
@@ -467,6 +472,11 @@
         },
         "tags": [
           "Renders"
+        ],
+        "security": [
+          {
+            "api-key": []
+          }
         ]
       }
     },
@@ -559,6 +569,11 @@
         },
         "tags": [
           "Renders"
+        ],
+        "security": [
+          {
+            "api-key": []
+          }
         ]
       }
     },
@@ -631,6 +646,11 @@
         },
         "tags": [
           "Renders"
+        ],
+        "security": [
+          {
+            "api-key": []
+          }
         ]
       }
     }
