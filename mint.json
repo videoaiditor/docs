@@ -70,12 +70,21 @@
       ]
     },
     {
-      "group": "Endpoints",
+      "group": "Videos Endpoints",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/getById",
-        "api-reference/endpoint/update"
+        "api-reference/videos/create",
+        "api-reference/videos/getById",
+        "api-reference/videos/get",
+        "api-reference/videos/update"
+      ]
+    },
+    {
+      "group": "Render Endpoints",
+      "pages": [
+        "api-reference/renders/create",
+        "api-reference/renders/createById",
+        "api-reference/renders/getById",
+        "api-reference/renders/get"
       ]
     }
   ],
