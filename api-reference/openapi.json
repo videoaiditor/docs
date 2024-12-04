@@ -1036,7 +1036,14 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Type of clip. Possible values: video, image, text, audio"
+            "description": "Type of clip. Possible values: video, image, text, audio, caption",
+            "enum": [
+              "video",
+              "image",
+              "text",
+              "audio",
+              "caption"
+            ]
           },
           "name": {
             "type": "string",
@@ -1192,7 +1199,14 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Type of clip. Possible values: video, image, text, audio"
+            "description": "Type of clip. Possible values: video, image, text, audio, caption",
+            "enum": [
+              "video",
+              "image",
+              "text",
+              "audio",
+              "caption"
+            ]
           },
           "name": {
             "type": "string",
