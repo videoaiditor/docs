@@ -310,28 +310,7 @@
       "post": {
         "operationId": "RenderController_createRender",
         "summary": "Create a render directly from a video json",
-        "parameters": [
-          {
-            "name": "autoGenerateCaptionWords",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "captionLanguageCode",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "en"
-              ],
-              "description": "Currently supports English only."
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "required": false,
           "description": "Video data to render",
@@ -493,28 +472,18 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "autoGenerateCaptionWords",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "captionLanguageCode",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "en"
-              ],
-              "description": "Currently supports English only."
-            }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenderCaptionDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "The render has been successfully created.",
@@ -882,10 +851,30 @@
             "default": "normal",
             "description": "Font style. Possible values: normal, italic"
           },
-          "lineHeight": {
+          "padding": {
             "type": "number",
-            "default": 1.2,
-            "description": "Line height as a multiplier of font size"
+            "default": 0,
+            "description": "Padding around the text in pixels"
+          },
+          "strokeWidth": {
+            "type": "number",
+            "default": 0,
+            "description": "Width of the text stroke/outline in pixels"
+          },
+          "strokeColor": {
+            "type": "string",
+            "default": "#000000",
+            "description": "Color of the text stroke/outline in hex format"
+          },
+          "borderWidth": {
+            "type": "number",
+            "default": 0,
+            "description": "Width of the text border in pixels"
+          },
+          "borderColor": {
+            "type": "string",
+            "default": "#FFFFFF",
+            "description": "Color of the text border in hex format"
           },
           "underline": {
             "type": "boolean",
@@ -1574,6 +1563,29 @@
         },
         "required": [
           "data"
+        ]
+      },
+      "RenderCaptionDto": {
+        "type": "object",
+        "properties": {
+          "autoGenerateCaptionWords": {
+            "type": "boolean",
+            "description": "Enable auto caption generation",
+            "default": false
+          },
+          "captionLanguageCode": {
+            "type": "string",
+            "description": "Caption language code",
+            "enum": [
+              "en",
+              "en-US"
+            ],
+            "default": "en-US"
+          }
+        },
+        "required": [
+          "autoGenerateCaptionWords",
+          "captionLanguageCode"
         ]
       },
       "RendersListResponseDto": {
