@@ -317,7 +317,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateVideoDto"
+                "$ref": "#/components/schemas/CreateRenderDto"
               }
             }
           }
@@ -1109,12 +1109,14 @@
         "type": "object",
         "properties": {
           "renderOptionsInUI": {
+            "type": "string",
             "default": [],
-            "description": "Render options to display in UI. Leave empty to restrict renderer access",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "enum": [
+              "json",
+              "client",
+              "server"
+            ],
+            "description": "Render options to display in UI. Leave empty to restrict renderer access"
           },
           "metadata": {
             "description": "Video project metadata",
@@ -1492,6 +1494,60 @@
         "required": [
           "data",
           "pagination"
+        ]
+      },
+      "CreateRenderDto": {
+        "type": "object",
+        "properties": {
+          "renderOptionsInUI": {
+            "type": "string",
+            "default": [],
+            "enum": [
+              "json",
+              "client",
+              "server"
+            ],
+            "description": "Render options to display in UI. Leave empty to restrict renderer access"
+          },
+          "metadata": {
+            "description": "Video project metadata",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetadataDto"
+              }
+            ]
+          },
+          "clips": {
+            "description": "Array of clips that make up the video",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClipDto"
+            }
+          },
+          "additional": {
+            "type": "object",
+            "description": "Additional custom properties"
+          },
+          "autoGenerateCaptionWords": {
+            "type": "boolean",
+            "description": "Enable auto caption generation",
+            "default": false
+          },
+          "captionLanguageCode": {
+            "type": "string",
+            "description": "Caption language code",
+            "enum": [
+              "en",
+              "en-US"
+            ],
+            "default": "en-US"
+          }
+        },
+        "required": [
+          "metadata",
+          "clips",
+          "autoGenerateCaptionWords",
+          "captionLanguageCode"
         ]
       },
       "RenderResponseData": {
