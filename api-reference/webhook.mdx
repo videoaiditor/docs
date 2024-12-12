@@ -1,0 +1,86 @@
+---
+title: Webhook Integration
+description: "Webhooks allow you to receive real-time notifications when video renders are completed or failed. Instead of polling our API, webhooks will send HTTP requests to your server when these events occur.."
+---
+
+## Events
+
+The following webhook events are available:
+
+- `render.completed`: Triggered when a video render completes successfully
+- `render.failed`: Triggered when a video render fails
+
+## Setting up Webhooks
+
+### 1. Create a Webhook Endpoint
+
+First, create an endpoint on your server to receive webhook events. The endpoint should be publicly accessible.
+
+### 2. Register the Webhook
+
+Register the webhook using the dashboard. Go to dashboard in the webhook panel and add your webhook endpoint.
+
+## Webhook Payload
+
+When an event occurs, you'll receive a POST request with the following payload structure:
+
+```json
+{
+  "event": "render.completed",
+  "data": {
+    "_id": "render-id",
+    "status": "completed",
+    "outputUrl": "https://cdn.example.com/video.mp4",
+    "error": "",
+    "videoId": "video-id",
+    "videoVersion": 1
+    "videoData": {
+      // ... complete video data
+    },
+    "createdAt": "2024-03-20T10:30:00Z",
+    "updatedAt": "2024-03-20T10:31:00Z"
+  }
+}
+```
+
+## Security
+
+### Verifying Webhook Signatures
+
+To ensure the webhook request came from us, we include a signature in the `X-Signature` header. Here's how to verify it:
+
+```javascript
+const crypto = require("crypto");
+
+function verifyWebhookSignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac("sha256", secret)
+    .update(JSON.stringify(payload))
+    .digest("hex");
+
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSignature)
+  );
+}
+
+// In your webhook handler:
+app.post("/webhook", (req, res) => {
+  const signature = req.headers["X-Signature"];
+  const payload = req.body;
+
+  if (!verifyWebhookSignature(payload, signature, "your-webhook-secret")) {
+    return res.status(401).send("Invalid signature");
+  }
+
+  // Process the webhook
+  console.log("Received valid webhook:", payload.event);
+  res.status(200).send("OK");
+});
+```
+
+### Best Practices
+
+1. Always verify the webhook signature
+2. Handle duplicate events (use the render ID as an idempotency key)
+3. Store your webhook secret securely

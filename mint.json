@@ -7,12 +7,12 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#0066cc",
+    "light": "#4d94ff",
+    "dark": "#003366",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#0066cc",
+      "to": "#4d94ff"
     }
   },
   "topbarLinks": [
@@ -59,14 +59,16 @@
       "group": "Guides",
       "pages": [
         "guides/HowToUse",
-        "guides/How to use the API"
+        "guides/How to use the API",
+        "guides/How to access webhook"
       ]
     },
     {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction",
-        "api-reference/ratelimits"
+        "api-reference/ratelimits",
+        "api-reference/webhook"
       ]
     },
     {
@@ -92,5 +94,18 @@
     "x": "https://x.com/yogendramanawat",
     "github": "https://github.com/ymanawat",
     "linkedin": "https://linkedin.com/in/yogendramanawat"
+  },
+  "theme": "prism",
+  "background": {
+    "style": "grid"
+  },
+  "font": {
+    "headings": {
+      "family": "Montserrat"
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 500
+    }
   }
 }
