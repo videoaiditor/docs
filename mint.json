@@ -3,7 +3,7 @@
   "name": "VideoAiditor",
   "logo": {
     "dark": "/logo/vaiditor.png",
-    "light": "/logo/vaiditor.png"
+    "light": "/logo/vaiditor-light.png"
   },
   "favicon": "/favicon.png",
   "colors": {
